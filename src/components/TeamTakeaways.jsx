@@ -82,7 +82,7 @@ function TeamTakeaways() {
       </div>
 
       {/* Deployment & Tools Callout */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '2rem' }}>
+      <div className="deployment-grid">
         <div className="card">
           <h4 className="card-title" style={{ fontSize: '1.1rem' }}>
             <Compass size={18} color="var(--primary)" /> Fase de Despliegue (Deployment)

@@ -375,20 +375,20 @@ function InteractiveCharts() {
           </div>
 
           {/* Quick country summary stats */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem', borderTop: '1px solid var(--border-color)', paddingTop: '1.25rem' }}>
+          <div className="country-stats-grid">
             <div style={{ textAlign: 'center' }}>
               <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', display: 'block' }}>Promedio de Producción</span>
               <strong style={{ fontSize: '1.2rem', color: 'var(--primary)' }}>
                 {countryStats.avgProd ? `${countryStats.avgProd.toLocaleString(undefined, { maximumFractionDigits: 1 })} TWh` : '0 TWh'}
               </strong>
             </div>
-            <div style={{ textAlign: 'center', borderLeft: '1px solid var(--border-color)' }}>
+            <div style={{ textAlign: 'center', borderLeft: '1px solid var(--border-color)', paddingLeft: '1rem' }}>
               <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', display: 'block' }}>Promedio de Consumo</span>
               <strong style={{ fontSize: '1.2rem', color: 'var(--secondary)' }}>
                 {countryStats.avgCons ? `${countryStats.avgCons.toLocaleString(undefined, { maximumFractionDigits: 1 })} TWh` : '0 TWh'}
               </strong>
             </div>
-            <div style={{ textAlign: 'center', borderLeft: '1px solid var(--border-color)' }}>
+            <div style={{ textAlign: 'center', borderLeft: '1px solid var(--border-color)', paddingLeft: '1rem' }}>
               <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', display: 'block' }}>Balance (Prod - Cons) {countryStats.latestYear}</span>
               <strong style={{ fontSize: '1.2rem', color: countryStats.surplus >= 0 ? '#10b981' : '#ef4444' }}>
                 {countryStats.surplus ? `${countryStats.surplus >= 0 ? '+' : ''}${countryStats.surplus.toLocaleString(undefined, { maximumFractionDigits: 1 })} TWh` : '0 TWh'}
@@ -471,44 +471,46 @@ function InteractiveCharts() {
             Relación lineal entre las variables seleccionadas. Coeficientes cercanos a 1.0 indican una correlación positiva fuerte.
           </p>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', marginTop: '0.5rem' }}>
-            {/* Headers row */}
-            <div className="heatmap-grid" style={{ gridTemplateColumns: '1.2fr repeat(5, 1fr)' }}>
-              <div className="heatmap-cell header" style={{ minHeight: '40px', padding: '0.25rem' }}>Variable</div>
-              {correlationMatrix.labels.map(l => (
-                <div key={l} className="heatmap-cell header" style={{ minHeight: '40px', padding: '0.25rem', fontSize: '0.75rem', writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
-                  {l}
-                </div>
-              ))}
-            </div>
-
-            {/* Matrix rows */}
-            {correlationMatrix.labels.map((rowLabel, i) => (
-              <div key={rowLabel} className="heatmap-grid" style={{ gridTemplateColumns: '1.2fr repeat(5, 1fr)', marginTop: '-1rem' }}>
-                {/* Row label */}
-                <div className="heatmap-cell header" style={{ fontSize: '0.8rem', justifyContent: 'flex-start', alignItems: 'flex-start', padding: '0.5rem 0.75rem', minHeight: '50px' }}>
-                  {rowLabel}
-                </div>
-                {/* Cells */}
-                {correlationMatrix.matrix[i].map((val, j) => (
-                  <div 
-                    key={j} 
-                    className="heatmap-cell"
-                    style={{
-                      backgroundColor: getHeatmapColor(val),
-                      color: val >= 0.7 ? '#ffffff' : 'var(--text-main)',
-                      fontSize: '0.85rem',
-                      fontWeight: 600,
-                      minHeight: '50px',
-                      cursor: 'help'
-                    }}
-                    title={`${rowLabel} vs ${correlationMatrix.labels[j]}: ${val.toFixed(2)}`}
-                  >
-                    {val.toFixed(2)}
+          <div className="heatmap-wrapper">
+            <div className="heatmap-container-inner" style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+              {/* Headers row */}
+              <div className="heatmap-grid" style={{ gridTemplateColumns: '1.2fr repeat(5, 1fr)' }}>
+                <div className="heatmap-cell header" style={{ minHeight: '40px', padding: '0.25rem' }}>Variable</div>
+                {correlationMatrix.labels.map(l => (
+                  <div key={l} className="heatmap-cell header" style={{ minHeight: '40px', padding: '0.25rem', fontSize: '0.75rem', writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
+                    {l}
                   </div>
                 ))}
               </div>
-            ))}
+
+              {/* Matrix rows */}
+              {correlationMatrix.labels.map((rowLabel, i) => (
+                <div key={rowLabel} className="heatmap-grid" style={{ gridTemplateColumns: '1.2fr repeat(5, 1fr)', marginTop: '-1rem' }}>
+                  {/* Row label */}
+                  <div className="heatmap-cell header" style={{ fontSize: '0.8rem', justifyContent: 'flex-start', alignItems: 'flex-start', padding: '0.5rem 0.75rem', minHeight: '50px' }}>
+                    {rowLabel}
+                  </div>
+                  {/* Cells */}
+                  {correlationMatrix.matrix[i].map((val, j) => (
+                    <div 
+                      key={j} 
+                      className="heatmap-cell"
+                      style={{
+                        backgroundColor: getHeatmapColor(val),
+                        color: val >= 0.7 ? '#ffffff' : 'var(--text-main)',
+                        fontSize: '0.85rem',
+                        fontWeight: 600,
+                        minHeight: '50px',
+                        cursor: 'help'
+                      }}
+                      title={`${rowLabel} vs ${correlationMatrix.labels[j]}: ${val.toFixed(2)}`}
+                    >
+                      {val.toFixed(2)}
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
           </div>
 
           <div className="callout" style={{ borderLeftColor: 'var(--primary-hover)', backgroundColor: 'var(--bg-main)' }}>
@@ -530,82 +532,83 @@ function InteractiveCharts() {
             Representación de la asimetría y el rango intercuartílico (IQR). Pasa el cursor por las cajas para ver estadísticas detalladas.
           </p>
 
-          <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'flex-end', height: '260px', borderBottom: '2px solid var(--border-color)', paddingBottom: '1rem', marginTop: '1.5rem', position: 'relative' }}>
-            
-            {boxPlotData.map((data, index) => {
-              // Custom SVG scale mapping (using log-like scaling because "Alto" goes up to 9977 while "Bajo" max is 12)
-              // Let's map min to max on a visual height scale of 0 to 200px
-              const visualHeightScale = (val) => {
-                // Logarithmic mapping for better visual representation of vastly different scales
-                const minVal = 0.003;
-                const maxVal = 9977.384;
-                const logMin = Math.log10(minVal);
-                const logMax = Math.log10(maxVal);
-                const logVal = Math.log10(val);
-                return ((logVal - logMin) / (logMax - logMin)) * 180 + 10;
-              };
+          <div className="boxplot-wrapper">
+            <div className="boxplot-container-inner">
+              {boxPlotData.map((data, index) => {
+                // Custom SVG scale mapping (using log-like scaling because "Alto" goes up to 9977 while "Bajo" max is 12)
+                // Let's map min to max on a visual height scale of 0 to 200px
+                const visualHeightScale = (val) => {
+                  // Logarithmic mapping for better visual representation of vastly different scales
+                  const minVal = 0.003;
+                  const maxVal = 9977.384;
+                  const logMin = Math.log10(minVal);
+                  const logMax = Math.log10(maxVal);
+                  const logVal = Math.log10(val);
+                  return ((logVal - logMin) / (logMax - logMin)) * 180 + 10;
+                };
 
-              const hMax = visualHeightScale(data.max);
-              const hQ3 = visualHeightScale(data.q3);
-              const hMedian = visualHeightScale(data.median);
-              const hQ1 = visualHeightScale(data.q1);
-              const hMin = visualHeightScale(data.min);
+                const hMax = visualHeightScale(data.max);
+                const hQ3 = visualHeightScale(data.q3);
+                const hMedian = visualHeightScale(data.median);
+                const hQ1 = visualHeightScale(data.q1);
+                const hMin = visualHeightScale(data.min);
 
-              return (
-                <div 
-                  key={data.category} 
-                  style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '20%', position: 'relative' }}
-                  className="boxplot-container"
-                >
-                  {/* SVG representing the boxplot */}
-                  <svg width="60" height="200" style={{ overflow: 'visible' }}>
-                    {/* Background line (whisker vertical line) */}
-                    <line x1="30" y1={200 - hMax} x2="30" y2={200 - hMin} stroke="var(--text-muted)" strokeWidth="1.5" />
+                return (
+                  <div 
+                    key={data.category} 
+                    style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '20%', position: 'relative' }}
+                    className="boxplot-container"
+                  >
+                    {/* SVG representing the boxplot */}
+                    <svg width="60" height="200" style={{ overflow: 'visible' }}>
+                      {/* Background line (whisker vertical line) */}
+                      <line x1="30" y1={200 - hMax} x2="30" y2={200 - hMin} stroke="var(--text-muted)" strokeWidth="1.5" />
+                      
+                      {/* Top whisker cap */}
+                      <line x1="20" y1={200 - hMax} x2="40" y2={200 - hMax} stroke="var(--text-muted)" strokeWidth="1.5" />
+                      
+                      {/* Bottom whisker cap */}
+                      <line x1="20" y1={200 - hMin} x2="40" y2={200 - hMin} stroke="var(--text-muted)" strokeWidth="1.5" />
+                      
+                      {/* IQR Box */}
+                      <rect 
+                        x="10" 
+                        y={200 - hQ3} 
+                        width="40" 
+                        height={hQ3 - hQ1} 
+                        fill="var(--primary-light)" 
+                        stroke="var(--primary)" 
+                        strokeWidth="2" 
+                        rx="2"
+                      />
+                      
+                      {/* Median Line */}
+                      <line x1="10" y1={200 - hMedian} x2="50" y2={200 - hMedian} stroke="var(--secondary)" strokeWidth="2.5" />
+                      
+                      {/* Tooltip Overlay */}
+                      <rect 
+                        x="5" 
+                        y={200 - hMax} 
+                        width="50" 
+                        height={hMax - hMin} 
+                        fill="transparent" 
+                        style={{ cursor: 'help' }}
+                      >
+                        <title>{`Nivel: ${data.category} (n=${data.category === 'Bajo' ? 488 : 487})\nMax: ${data.max.toFixed(2)} TWh\nQ3: ${data.q3.toFixed(2)} TWh\nMediana: ${data.median.toFixed(2)} TWh\nQ1: ${data.q1.toFixed(2)} TWh\nMin: ${data.min.toFixed(2)} TWh\nPromedio: ${data.mean.toFixed(2)} TWh`}</title>
+                      </rect>
+                    </svg>
                     
-                    {/* Top whisker cap */}
-                    <line x1="20" y1={200 - hMax} x2="40" y2={200 - hMax} stroke="var(--text-muted)" strokeWidth="1.5" />
-                    
-                    {/* Bottom whisker cap */}
-                    <line x1="20" y1={200 - hMin} x2="40" y2={200 - hMin} stroke="var(--text-muted)" strokeWidth="1.5" />
-                    
-                    {/* IQR Box */}
-                    <rect 
-                      x="10" 
-                      y={200 - hQ3} 
-                      width="40" 
-                      height={hQ3 - hQ1} 
-                      fill="var(--primary-light)" 
-                      stroke="var(--primary)" 
-                      strokeWidth="2" 
-                      rx="2"
-                    />
-                    
-                    {/* Median Line */}
-                    <line x1="10" y1={200 - hMedian} x2="50" y2={200 - hMedian} stroke="var(--secondary)" strokeWidth="2.5" />
-                    
-                    {/* Tooltip Overlay */}
-                    <rect 
-                      x="5" 
-                      y={200 - hMax} 
-                      width="50" 
-                      height={hMax - hMin} 
-                      fill="transparent" 
-                      style={{ cursor: 'help' }}
-                    >
-                      <title>{`Nivel: ${data.category} (n=${data.category === 'Bajo' ? 488 : 487})\nMax: ${data.max.toFixed(2)} TWh\nQ3: ${data.q3.toFixed(2)} TWh\nMediana: ${data.median.toFixed(2)} TWh\nQ1: ${data.q1.toFixed(2)} TWh\nMin: ${data.min.toFixed(2)} TWh\nPromedio: ${data.mean.toFixed(2)} TWh`}</title>
-                    </rect>
-                  </svg>
-                  
-                  {/* Category label below chart */}
-                  <span style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-main)', marginTop: '0.5rem', textAlign: 'center' }}>
-                    {data.category}
-                  </span>
-                  <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>
-                    {data.category === 'Alto' ? '>538 TWh' : data.category === 'Medio-Alto' ? '72-538 TWh' : data.category === 'Medio-Bajo' ? '13-72 TWh' : '<13 TWh'}
-                  </span>
-                </div>
-              );
-            })}
+                    {/* Category label below chart */}
+                    <span style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-main)', marginTop: '0.5rem', textAlign: 'center' }}>
+                      {data.category}
+                    </span>
+                    <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>
+                      {data.category === 'Alto' ? '>538 TWh' : data.category === 'Medio-Alto' ? '72-538 TWh' : data.category === 'Medio-Bajo' ? '13-72 TWh' : '<13 TWh'}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
           </div>
 
           <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', lineHeight: 1.4, marginTop: '0.5rem' }}>

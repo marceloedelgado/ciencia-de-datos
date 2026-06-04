@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Flame, 
-  BookOpen, 
-  Database, 
-  Brain, 
-  Users, 
-  TrendingUp, 
+import {
+  Flame,
+  BookOpen,
+  Database,
+  Brain,
+  Users,
+  TrendingUp,
   ArrowRight,
   Info,
   Calendar,
@@ -68,7 +68,7 @@ function App() {
       <nav className="navbar">
         <div className="navbar-logo" onClick={() => { scrollToSection('inicio'); setMenuOpen(false); }} style={{ cursor: 'pointer' }}>
           <Flame color="#0f766e" size={24} />
-          <h1>Energy Analytics</h1>
+          <h1>Energy Analytics - G29</h1>
         </div>
 
         <button className="navbar-toggle" onClick={() => setMenuOpen(!menuOpen)}>
@@ -90,7 +90,7 @@ function App() {
 
       {/* Main Scrollable Content */}
       <main className="main-content">
-        
+
         {/* Section 1: Landing (Inicio) */}
         <section id="inicio" style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
           <div className="hero-container">

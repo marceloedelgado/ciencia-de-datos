@@ -376,7 +376,7 @@ function ModelPredictor() {
         </div>
 
         {/* Diagnostic Plots Simulation */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', borderTop: '1px solid var(--border-color)', paddingTop: '2rem', marginTop: '1rem' }}>
+        <div className="diagnostic-plots-grid">
           <div>
             <h4 style={{ fontWeight: 600, color: 'var(--text-main)', marginBottom: '0.5rem', fontSize: '0.95rem' }}>
               Distribución de Residuos (Errores)
