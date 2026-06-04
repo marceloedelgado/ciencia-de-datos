@@ -538,13 +538,10 @@ function InteractiveCharts() {
                 // Custom SVG scale mapping (using log-like scaling because "Alto" goes up to 9977 while "Bajo" max is 12)
                 // Let's map min to max on a visual height scale of 0 to 200px
                 const visualHeightScale = (val) => {
-                  // Logarithmic mapping for better visual representation of vastly different scales
+                  // Linear mapping to match the original Seaborn boxplot
                   const minVal = 0.003;
                   const maxVal = 9977.384;
-                  const logMin = Math.log10(minVal);
-                  const logMax = Math.log10(maxVal);
-                  const logVal = Math.log10(val);
-                  return ((logVal - logMin) / (logMax - logMin)) * 180 + 10;
+                  return ((val - minVal) / (maxVal - minVal)) * 180 + 10;
                 };
 
                 const hMax = visualHeightScale(data.max);
@@ -612,7 +609,7 @@ function InteractiveCharts() {
           </div>
 
           <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', lineHeight: 1.4, marginTop: '0.5rem' }}>
-            * Gráfico en escala semilogarítmica para representar las diferencias extremas. En los datos del TP, los países con categoría <strong>Alto</strong> concentran la gran mayoría del suministro, y los <i>outliers</i> detectados corresponden a potencias como Arabia Saudita y Rusia, los cuales no fueron removidos por ser estratégicamente relevantes.
+            * Gráfico en escala lineal para representar las diferencias reales de producción y mantener consistencia con los resultados obtenidos en Python. Se puede apreciar la extrema asimetría de los datos, donde la categoría <strong>Alto</strong> concentra la gran mayoría del suministro y presenta una dispersión inmensamente mayor que las demás categorías.
           </p>
         </div>
       </div>
