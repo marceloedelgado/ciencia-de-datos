@@ -313,7 +313,7 @@ function InteractiveCharts() {
       </div>
 
       {/* 2. Country Comparer & Rankings Row */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '2.5rem' }}>
+      <div className="dashboard-row">
         
         {/* Country Comparer */}
         <div className="card">
@@ -460,7 +460,7 @@ function InteractiveCharts() {
       </div>
 
       {/* 3. Heatmap & Custom Boxplot row */}
-      <div style={{ display: 'grid', gridTemplateColumns: '0.9fr 1.1fr', gap: '2.5rem' }}>
+      <div className="dashboard-row reverse-ratio">
         
         {/* Heatmap Matrix */}
         <div className="card">

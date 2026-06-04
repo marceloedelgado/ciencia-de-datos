@@ -10,7 +10,9 @@ import {
   Info,
   Calendar,
   Globe,
-  Award
+  Award,
+  Menu,
+  X
 } from 'lucide-react';
 import BusinessUnderstanding from './components/BusinessUnderstanding';
 import InteractiveCharts from './components/InteractiveCharts';
@@ -19,6 +21,7 @@ import TeamTakeaways from './components/TeamTakeaways';
 
 function App() {
   const [activeSection, setActiveSection] = useState('inicio');
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const menuItems = [
     { id: 'inicio', label: 'Inicio', icon: Flame },
@@ -63,17 +66,20 @@ function App() {
     <div className="app-container">
       {/* Sticky Top Navbar */}
       <nav className="navbar">
-        <div className="navbar-logo" onClick={() => scrollToSection('inicio')} style={{ cursor: 'pointer' }}>
+        <div className="navbar-logo" onClick={() => { scrollToSection('inicio'); setMenuOpen(false); }} style={{ cursor: 'pointer' }}>
           <Flame color="#0f766e" size={24} />
           <h1>Energy Analytics</h1>
         </div>
 
-        <ul className="navbar-menu">
+        <button className="navbar-toggle" onClick={() => setMenuOpen(!menuOpen)}>
+          {menuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+
+        <ul className={`navbar-menu ${menuOpen ? 'open' : ''}`}>
           {menuItems.map((item) => {
-            const Icon = item.icon;
             return (
               <li key={item.id} className={`navbar-item ${activeSection === item.id ? 'active' : ''}`}>
-                <button onClick={() => scrollToSection(item.id)}>
+                <button onClick={() => { scrollToSection(item.id); setMenuOpen(false); }}>
                   {item.label}
                 </button>
               </li>
